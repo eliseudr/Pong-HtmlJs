@@ -92,15 +92,21 @@
         }
 
         function MovimentoIa(){
-            if( bolaY > canvas.height/2){
-                pa2 = canvas.height/2;
-            }else{
-                pa2 = canvas.height/4;
+            //Centro da pa
+            var pa2Centro = pa2 + (paAltura/2);
+            //Mover a 'pa' apenas quando passar da metade
+            if( pa2Centro < bolaY-35){
+                pa2 += 6;
+            }else if(pa2Centro > bolaY+35){
+                pa2 -= 6;
             }return pa2;
 
         }
 
         function Visual(){
+
+            canvasContext.fillStyle = 'white';
+            canvasContext.fillText("SCORE", 390, 200);
 
             //Define o tamanho e cor do canvas
             Retangulo(0, 0, canvas.width, canvas.height, 'black');
