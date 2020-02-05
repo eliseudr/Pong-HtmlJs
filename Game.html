@@ -1,0 +1,129 @@
+<html>
+
+    <canvas id="game"  width="800" height="600">
+    </canvas>
+
+    <script>
+
+        var canvas;
+        var canvasContext;
+        var bolaX = 5;
+        var velocidadeX = 5;
+        var bolaY = 5;
+        var velocidadeY = 5;
+
+        var pa1 = 250;
+        var pa2 = 250;
+        var paLargura = 10;
+        const paAltura = 100;
+
+        //Funçao para pegar a posição do mouse
+        function PosicaoMouse(evt){
+
+            var rect = canvas.getBoundingClientRect();
+            var root = document.documentElement;
+            var mouseX = evt.clientX - rect.left - root.scrollLeft;
+            var mouseY = evt.clientY - rect.top - root.scrollTop;
+            return{
+                x:mouseX,
+                y:mouseY
+            };
+        }
+
+
+        window.onload = function() {
+            
+            canvas = document.getElementById('game');
+            canvasContext = canvas.getContext('2d');
+            
+            var framesPerSecound = 15;
+            setInterval( function (){
+                        Movimento();
+                        Visual();
+                        }, framesPerSecound);
+           
+           /*Chama uma função, recebe as funções do mouse e passa para a função "PosiçãoMouse",
+           e capitando as informações de posição do eixo Y*/
+           canvas.addEventListener('mousemove',
+                                    function(evt){
+                                        var mousePos = PosicaoMouse(evt);
+                                        pa1 = mousePos.y-(paAltura/2);        
+                                    });
+        }
+
+        function resetaBola(){
+            velocidadeX = -velocidadeX;
+            bolaX = canvas.width/2;
+            bolaY = canvas.height/2;
+
+        }
+
+        function Movimento(){
+
+            //Velocidade positiva para a direita >>
+            bolaX = bolaX + velocidadeX;
+            bolaY = bolaY + velocidadeY;
+
+            //Velocidade negativa para a esquerda no eixo X
+            if(bolaX >= canvas.width){
+                if (bolaY > pa2 && bolaY < pa2+paAltura){
+                    velocidadeX = -velocidadeX;
+                }else{
+                    resetaBola();
+                }
+            }
+            
+            if(bolaX < 0){
+                if (bolaY > pa1 && bolaY < pa1+paAltura){
+                    velocidadeX = -velocidadeX;
+                }else{
+                    resetaBola();
+                }
+            }
+
+            //Velocidade negativa para a esquerda no eixo Y
+            if(bolaY >= canvas.height){
+                velocidadeY = -velocidadeY;
+            }if(bolaY <= 0){
+                velocidadeY = -velocidadeY;
+            }
+            
+        }
+
+        function Visual(){
+
+            //Define o tamanho e cor do canvas
+            Retangulo(0, 0, canvas.width, canvas.height, 'black');
+
+            //Retangulos da esquerda
+            Retangulo(0, pa1, paLargura, paAltura, 'pink');
+
+            //Retangulo da direita
+            Retangulo(canvas.width-10, pa2, paLargura, paAltura, 'pink');
+            
+            //Bola
+            Bola(bolaX, bolaY, 7, 'red');
+
+        }
+
+        //Funçao de criançao da bola
+        function Bola(centroX, centroY, raio, Cor){
+            
+            canvasContext.fillStyle = Cor;
+            canvasContext.beginPath();
+                        //Posiçao X e Y, raio, angulo inicial e angulo final.
+            canvasContext.arc(centroX, centroY, raio, 0, Math.PI*2, true);
+            canvasContext.fill();//Preenche o circulo
+            
+        }
+
+        function Retangulo(leftX, topY, width, height, Cor){
+                    //Abrevia a criançao dos retangulos!!
+                    canvasContext.fillStyle = Cor;
+                    canvasContext.fillRect(leftX, topY, width, height);
+
+                }
+
+    </script>   
+
+</html>
