@@ -39,6 +39,7 @@
             var framesPerSecound = 15;
             setInterval( function (){
                         Movimento();
+                        MovimentoIa();
                         Visual();
                         }, framesPerSecound);
            
@@ -88,6 +89,15 @@
                 velocidadeY = -velocidadeY;
             }
             
+        }
+
+        function MovimentoIa(){
+            if( bolaY > canvas.height/2){
+                pa2 = canvas.height/2;
+            }else{
+                pa2 = canvas.height/4;
+            }return pa2;
+
         }
 
         function Visual(){
