@@ -21,7 +21,7 @@
         var score1 = 0;
         var score2 = 0;
 
-        const venceu = 3;
+        const scoreMaximo = 3;
         var mostraVitoria = false;
 
         //Funçao para pegar a posição do mouse
@@ -48,6 +48,7 @@
                         Movimento();
                         MovimentoIa();
                         Visual();
+                        vencedor();
                         }, framesPerSecound);
            
            /*Chama uma função, recebe as funções do mouse e passa para a função "PosiçãoMouse",
@@ -61,16 +62,31 @@
 
         function resetaBola(){
 
-            if(score1 >= venceu || score2 >= venceu){
-                score1 = 0;
-                score2 = 0;
-                mostraVitoria = true;
+            if(bolaX <= 0){
+                score2++;
+            }else if(bolaX >= canvas.width){
+                score1++;
             }
 
             velocidadeX = -velocidadeX;
             velocidadeY = -velocidadeY;
             bolaX = canvas.width/2;
             bolaY = canvas.height/2;
+        }
+
+        function vencedor(){
+            
+            if(score1 >= scoreMaximo){
+                score1=0;
+                score2=0;
+                mostraVitoria = true;
+            }else if(score2 >= scoreMaximo){
+                score1=0;
+                score2=0;
+                canvasContext.fillStyle = "white";
+                canvasContext.fillText("Player 2 VENCEU", canvas.width-100, canvas.height/4);
+                mostraVitoria = true;
+            }
 
 
         }
@@ -95,8 +111,7 @@
 
                 }else{
                     resetaBola();
-                    score1++; // ADICIONA NO SCORE SE O PLAYER ERRAR
-                }return score1;
+                };
             }
             
             if(bolaX < 0){
@@ -107,9 +122,7 @@
                     velocidadeY = deltaY * 0.25;
                 }else{
                     resetaBola();
-                    score2++;// ADICIONA NO SCORE SE A IA ERRAR
-
-                }return score2;
+                };
             }
 
             //Velocidade negativa para a esquerda no eixo Y
@@ -155,6 +168,13 @@
             canvasContext.fillStyle = 'white';
             canvasContext.fillText("SCORE", 390, 50);
 
+            if (mostraVitoria){
+                canvasContext.fillStyle="white";
+                canvasContext.fillText("CLICK PARA COTINUAR", canvas.width/2-47, canvas.height/2-140)
+                canvasContext.fillText("VOCE VENCEU", canvas.width/2-35, canvas.height/2-100)
+                return;
+            }
+
             //SCORE PLAYER 1
             canvasContext.fillStyle = 'white';
             canvasContext.fillText(score1, canvas.width/2-100, 90);
@@ -162,13 +182,6 @@
             //SCORE PLAYER 2
             canvasContext.fillStyle = 'white';
             canvasContext.fillText(score2, canvas.width/2+100, 90);
-
-            if (mostraVitoria){
-                canvasContext.fillStyle="white";
-                canvasContext.fillText("Click para continuar", canvas.width/2-50, canvas.height/2-140)
-                canvasContext.fillText("VOCE VENCEU", canvas.width/2-35, canvas.height/2-100)
-                return;
-            }
 
 
         }
