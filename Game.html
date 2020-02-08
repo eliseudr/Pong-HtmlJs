@@ -77,23 +77,20 @@
         function vencedor(){
             
             if(score1 >= scoreMaximo){
-                score1=0;
-                score2=0;
+                canvasContext.fillStyle = "white";
+                canvasContext.fillText("Player 1 VENCEU", 200, canvas.height/4);
                 mostraVitoria = true;
             }else if(score2 >= scoreMaximo){
-                score1=0;
-                score2=0;
                 canvasContext.fillStyle = "white";
-                canvasContext.fillText("Player 2 VENCEU", canvas.width-100, canvas.height/4);
+                canvasContext.fillText("Player 2 VENCEU", canvas.width-200, canvas.height/4);
                 mostraVitoria = true;
             }
-
-
         }
 
         function Movimento(){
 
             if (mostraVitoria){
+                vencedor();
                 return;
             }
 
@@ -137,6 +134,7 @@
         function MovimentoIa(){
 
             if (mostraVitoria){
+                vencedor();
                 return;
             }
 
@@ -169,10 +167,10 @@
             canvasContext.fillText("SCORE", 390, 50);
 
             if (mostraVitoria){
+                vencedor();
                 canvasContext.fillStyle="white";
                 canvasContext.fillText("CLICK PARA COTINUAR", canvas.width/2-47, canvas.height/2-140)
-                canvasContext.fillText("VOCE VENCEU", canvas.width/2-35, canvas.height/2-100)
-                return;
+                 
             }
 
             //SCORE PLAYER 1
