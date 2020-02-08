@@ -7,11 +7,10 @@
 
         var canvas;
         var canvasContext;
-        var bolaX = 5;
+        var bolaX = 400;
         var velocidadeX = 5;
-        var bolaY = 5;
+        var bolaY = 300;
         var velocidadeY = 5;
-        var aceleracao = 0.5;
 
         var pa1 = 250;
         var pa2 = 250;
@@ -37,6 +36,15 @@
             };
         }
 
+        //Clickando vai zerar os scores e retornando ao jogo!
+        function ClickDoMouse(evt){
+            if(mostraVitoria){
+                score1 = 0;
+                score2 = 0;
+                mostraVitoria = false;
+            }
+
+        }
 
         window.onload = function() {
             
@@ -51,6 +59,9 @@
                         vencedor();
                         }, framesPerSecound);
            
+           //Função para receber o input do click do mouse
+           canvas.addEventListener('mousedown', ClickDoMouse);
+
            /*Chama uma função, recebe as funções do mouse e passa para a função "PosiçãoMouse",
            e capitando as informações de posição do eixo Y*/
            canvas.addEventListener('mousemove',
@@ -100,7 +111,7 @@
 
             //Velocidade negativa para a esquerda no eixo X
             if(bolaX >= canvas.width){
-                if (bolaY > pa2 && bolaY < pa2+paAltura){
+                if (bolaY > pa2 && bolaY < ((pa2-5)+(paAltura+5))){
                     velocidadeX = -velocidadeX;
                     
                     var deltaY = bolaY - (pa2+paAltura/2);
@@ -112,11 +123,11 @@
             }
             
             if(bolaX < 0){
-                if (bolaY > pa1 && bolaY < pa1+paAltura){
+                if (bolaY > pa1 && bolaY < ((pa1-5)+(paAltura+5))){
                     velocidadeX = -velocidadeX;
 
-                    var deltaY = bolaY - (pa1+paAltura/2);
-                    velocidadeY = deltaY * 0.25;
+                    var deltaX = bolaY - (pa1+paAltura/2);
+                    velocidadeY = deltaX * 0.25;
                 }else{
                     resetaBola();
                 };
@@ -149,10 +160,19 @@
 
         }
 
+        function LinhaCentral(){
+            for (var i=0; i<canvas.height; i += 31 ){
+                    Retangulo(canvas.width/2-1, i, 2, 20, 'pink');
+            }
+
+        }
+
         function Visual(){
 
             //Define o tamanho e cor do canvas
             Retangulo(0, 0, canvas.width, canvas.height, 'black');
+
+            LinhaCentral();
 
             //Retangulos da esquerda
             Retangulo(0, pa1, paLargura, paAltura, 'pink');
@@ -164,12 +184,12 @@
             Bola(bolaX, bolaY, 7, 'red');
 
             canvasContext.fillStyle = 'white';
-            canvasContext.fillText("SCORE", 390, 50);
+            canvasContext.fillText("SCORE", 382, 59);
 
             if (mostraVitoria){
                 vencedor();
                 canvasContext.fillStyle="white";
-                canvasContext.fillText("CLICK PARA COTINUAR", canvas.width/2-47, canvas.height/2-140)
+                canvasContext.fillText("CLICK PARA COTINUAR", canvas.width/2-50, canvas.height/2-148)
                  
             }
 
@@ -180,7 +200,6 @@
             //SCORE PLAYER 2
             canvasContext.fillStyle = 'white';
             canvasContext.fillText(score2, canvas.width/2+100, 90);
-
 
         }
 
@@ -201,7 +220,6 @@
                     canvasContext.fillRect(leftX, topY, width, height);
 
                 }
-
     </script>   
 
 </html>
